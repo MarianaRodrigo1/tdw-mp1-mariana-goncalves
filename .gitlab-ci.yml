@@ -1,15 +1,13 @@
 stages:
-  - pre-build
+  - install
   - test
   - build
   - deploy
 
 image: node:14
 
-pre-build:
-  stage: pre-build
-  dependencies: 
-    - install
+install:
+  stage: install
   script: 
     - npm install
 
@@ -30,7 +28,6 @@ test:
   stage: test
   dependencies: 
     - install
-    - pre-build
     - build
   script: 
     - npm install
@@ -43,6 +40,7 @@ deploy:
   dependencies:
     - install
     - build
+    - test
   script:
     - npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
   rules:
