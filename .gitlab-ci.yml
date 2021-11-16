@@ -6,24 +6,27 @@ stages:
 
 image: node:14
 
-install:
+pre-build:
   stage: pre-build
+  dependencies: 
+    - install
   script: 
     - npm install
 
 test:
   stage: test
-  dependencies: install
+  dependencies: 
+    - install
   script: 
     - npm install
     - npm run test
     - npm run prettier
     - npm run lint
 
-
-
 build:
   stage: build
+  dependencies: 
+    - build
   scripts:
     - npm run build
   artifacts:
