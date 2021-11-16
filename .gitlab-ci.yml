@@ -8,7 +8,8 @@ image: node:14
 
 pre-build:
   stage: pre-build
-  dependencies: install
+  dependencies: 
+    - install
   script: 
     - npm install
 
