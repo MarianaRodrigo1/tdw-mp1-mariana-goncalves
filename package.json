@@ -36,8 +36,11 @@
   "main": "n/a",
   "scripts": {
     "dev": "gatsby develop",
+    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "build": "gatsby build",
     "serve": "gatsby serve",
-    "setup": "node ./bin/setup.js"
+    "setup": "node ./bin/setup.js",
+    "test": "jest",
+    "lint": "npx eslint src/**/*.js --fix"
   }
 }
