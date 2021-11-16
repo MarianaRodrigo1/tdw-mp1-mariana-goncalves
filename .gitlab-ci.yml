@@ -1,7 +1,7 @@
 stages:
   - install
-  - test
   - build
+  - test
   - deploy
 
 image: node:14
@@ -30,7 +30,6 @@ test:
     - install
     - build
   script: 
-    - npm install
     - npm run test
     - npm run prettier
     - npm run lint
