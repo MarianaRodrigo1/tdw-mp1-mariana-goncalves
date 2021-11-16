@@ -6,9 +6,14 @@ stages:
 test project:
   stage: test
   image: node:15
+  dependencies: 
+    - install
   script: 
-    -yarn install
-    -yarn test
+    - yarn install
+    - yarn test
+    - yarn prettier
+    - yarn lint
+  expire_in: 1 days
 
 buld projects:
   image: node:14
@@ -19,13 +24,21 @@ buld projects:
   artifacts:
     paths:
       - build/
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: on_success
 
 netlify:
   stage: deploy
   image: node:15
   script:
-    - npm install -g netlify-cli
+    - yarn install -g netlify-cli
     - netlify deploy--dir=build --prod
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    when: on_success
+
+
 
 # default:
 #   image: node:14-buster
