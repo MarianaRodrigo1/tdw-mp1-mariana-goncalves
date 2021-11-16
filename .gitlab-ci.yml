@@ -31,7 +31,7 @@ buld projects:
 
 netlify:
   stage: deploy
-  image: node:15
+  image: node:14
   script:
     - yarn install -g netlify-cli
     - netlify deploy--dir=build --prod
