@@ -8,33 +8,33 @@ image: node:14
 
 pre-build:
   stage: pre-build
-  dependencies: 
-    - install
+  dependencies: install
   script: 
     - npm install
+
+build:
+  stage: build
+  dependencies: install
+  scripts:
+    - npm run build
+  artifacts:
+    paths:
+      - public
+  rules:
+    if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    when: on_success
 
 test:
   stage: test
   dependencies: 
     - install
+    - pre-build
+    - build
   script: 
     - npm install
     - npm run test
     - npm run prettier
     - npm run lint
-
-build:
-  stage: build
-  dependencies: 
-    - build
-  scripts:
-    - npm run build
-  artifacts:
-    paths:
-      - build/
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    when: on_success
 
 deploy:
   stage: deploy
@@ -44,7 +44,7 @@ deploy:
   script:
     - npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     when: on_success
 
 
